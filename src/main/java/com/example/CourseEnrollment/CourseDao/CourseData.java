@@ -4,12 +4,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -103,9 +106,47 @@ public class CourseData implements interf {
 		List<CourseModel> list = jdbcTemplate.query(sql,
 				(ResultSet rs, int rowNum) -> new CourseModel(rs.getString("ID"), rs.getString("COURSE_NAME"),
 						rs.getString("COURSE_FEE")));
-		List<CourseModel> sortList = list.stream().sorted().collect(Collectors.toList());
+		List<CourseModel> sortList = list.stream().sorted(Comparator.comparing(CourseModel::getCourse_price).reversed())
+				.collect(Collectors.toList());
 		return sortList;
 	}
 	
-
+	public CourseModel getMinFee(){
+		String sql = "select * from course";
+		List<CourseModel> list = jdbcTemplate.query(sql,
+				(ResultSet rs, int rowNum) -> new CourseModel(rs.getString("ID"), rs.getString("COURSE_NAME"),
+						rs.getString("COURSE_FEE")));
+		CourseModel min=list.stream().min((i1,i2)->-i1.getCourse_price().compareTo(i2.getCourse_price())).get();
+		return min;
+	}
+	
+	public void getForEachCoursePrinting(){
+		String sql = "select * from course";
+		List<CourseModel> list = jdbcTemplate.query(sql,
+				(ResultSet rs, int rowNum) -> new CourseModel(rs.getString("ID"), rs.getString("COURSE_NAME"),
+						rs.getString("COURSE_FEE")));
+		//list.stream().forEach(System.out::println);
+		list.stream().filter(s->s.getCourse_id().contains("2")).forEach(System.out::println);
+	}
+	
+	//toArray
+	public void getArray(){
+		ArrayList<Integer>ar=new ArrayList<>();
+		ar.add(10);
+		ar.add(20);
+		ar.add(30);
+		ar.add(40);
+		Integer[] i=ar.stream().toArray(Integer[]::new);
+		Stream.of(i).forEach(System.out::println);
+	}
+	//Stream.of
+	public void getStreamOf(){
+		Stream s=Stream.of(9,99,999,9999);
+		s.forEach(System.out::println);
+	}
+/*//o/p::
+	9
+	99
+	999
+	9999*/
 }

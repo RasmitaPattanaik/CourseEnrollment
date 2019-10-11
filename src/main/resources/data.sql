@@ -5,6 +5,6 @@ CREATE TABLE course (
 );
 
 INSERT INTO course (id, course_name, course_fee) VALUES
-  ('1','java', '1000'),
+  ('1','java', '3000'),
   ('2','Python', '2000'),
-  ('3','cpp', '3000');
+  ('3','cpp', '1000');

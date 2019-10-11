@@ -60,4 +60,14 @@ public class Course {
 		return courseService.sortedCourseDetails();
 	}
 
+	@GetMapping("/getMinFee")
+	public CourseModel getMinFee() {
+		return courseService.getMinFee();
+	}
+
+	@GetMapping("/ForEach")
+	public void getForEachCoursePrinting() {
+		courseService.getForEachCoursePrinting();
+	}
+
 }

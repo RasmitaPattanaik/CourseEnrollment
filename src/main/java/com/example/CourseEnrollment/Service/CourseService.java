@@ -45,4 +45,12 @@ public class CourseService {
 	public List<CourseModel> sortedCourseDetails() {
 		return courseData.getSortCourseDetails();
 	}
+
+	public CourseModel getMinFee() {
+		return courseData.getMinFee();
+	}
+
+	public void getForEachCoursePrinting() {
+		courseData.getForEachCoursePrinting();
+	}
 }
